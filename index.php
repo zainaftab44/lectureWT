@@ -2,12 +2,33 @@
 $title=isset($_POST["title"])?$_POST["title"]:(isset($_GET["title"])?$_GET["title"]:"Default title"); 
 include "header.php";
 $_SESSION["title"]=$title;
+
+if(isset($_POST["submit"])){
+    $name=$_POST["stdname"];
+    $email=$_POST["stdemail"];
+    $pass=$_POST["stdpass"];
+    $conn= mysqli_connect("localhost","root","","mydb");
+
+$stmt=    $conn->prepare("insert into student ( name, email, password) values (?,?,?)");
+$stmt->bind_param("sss",$name,$email,md5($pass));
+echo $stmt->execute();
+
+}
 ?>
 <a href="page2.php" class="btn btn-default">Goto page 2</a>
     <div class="container">
         <div class="row">
             <h1 class="offset-lg-4">This is a basic page</h1>
-            <h3 > <?php echo $title ?></h3>
+            <h3 > <?php echo "Student Form"; ?></h3>
+        </div>
+        <div class="row">
+            <br/><hr>
+            <form action="./" method="post">
+            <input class="form-control" placeholder="enter name" name="stdname" required/>
+            <input class="form-control" placeholder="enter email" type="email" name="stdemail" required/>
+            <input class="form-control" placeholder="enter password" type="password" name="stdpass" required/>
+            <input class="btn btn-primary" type="submit" value="submit" name="submit"/>
+            </form><br/><hr>
         </div>
         <div class="row">
             <div class="col-lg-3">
