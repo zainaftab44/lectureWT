@@ -1,6 +1,8 @@
 <!doctype html>
 <?php 
 session_start();
+$conn= mysqli_connect("localhost","root","","mydb");
+
 //error_reporting(~E_ALL);
 ?>
 <html lang="en">
