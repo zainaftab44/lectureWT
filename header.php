@@ -1,8 +1,7 @@
 <!doctype html>
 <?php 
 session_start();
-$conn= mysqli_connect("localhost","root","","mydb");
-
+include "./dbconn.php"
 //error_reporting(~E_ALL);
 ?>
 <html lang="en">
@@ -14,6 +13,7 @@ $conn= mysqli_connect("localhost","root","","mydb");
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <title><?php echo isset($title)?$title:"title from session: ".$_SESSION["title"] ?></title>
 </head>

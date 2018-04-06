@@ -7,7 +7,6 @@ if(isset($_POST["submit"])){
     $name=$_POST["stdname"];
     $email=$_POST["stdemail"];
     $pass=$_POST["stdpass"];
-    $conn= mysqli_connect("localhost","root","","mydb");
 
 $stmt=    $conn->prepare("insert into student ( name, email, password) values (?,?,?)");
 $stmt->bind_param("sss",$name,$email,md5($pass));
@@ -24,12 +23,24 @@ echo $stmt->execute();
         <div class="row">
             <br/><hr>
             <form action="./" method="post">
-            <input class="form-control" placeholder="enter name" name="stdname" required/>
-            <input class="form-control" placeholder="enter email" type="email" name="stdemail" required/>
-            <input class="form-control" placeholder="enter password" type="password" name="stdpass" required/>
-            <input class="btn btn-primary" type="submit" value="submit" name="submit"/>
+            <input class="form-control" placeholder="enter name" id="stdname" required/>
+            <input class="form-control" placeholder="enter email" type="email" id="stdemail" required/>
+            <input class="form-control" placeholder="enter password" type="password" id="stdpass" required/>
+            <input class="btn btn-primary" type="button" id="insert_user" value="submit" name="submit"/>
             </form><br/><hr>
         </div>
+        <script>
+        $("#insert_user").on('click',function(){
+            $.get("adduser.php?name="+$("#stdname").val()
+            +"&email="+$("#stdemail").val()
+            +"&pass="$("#stdpass").val()
+            , function(data,status){
+                var d=JSON.parse(data);
+                var info=d["data"][1];
+                alert(info["email"]);
+            })
+        })
+        </script>
         <div class="row">
             <div class="col-lg-3">
                 <h3 class="card-block text-center">Column 1!</h3>
@@ -113,7 +124,7 @@ echo $stmt->execute();
             </div>
         </div>
         <div class="row">
-        <form method="get" action="/Project/" style="height:500px; width:auto">
+        <form method="get" action="/Project/" style=" width:auto">
         <fieldset>
         <legend>change title form </legend>
         <input class="form-control" type="text" placeholder="Enter new title" name="title"/>
@@ -123,10 +134,18 @@ echo $stmt->execute();
         </form>
         </div>
     </div>
+    <button class="btn btn-primary" id="btn_get">Get users</button>
+<script>
+$("#btn_get").on('click',function(){
+$.post("getusers.php",{sid:4},function(data,status){
+    alert(data);
+})
+})
+</script>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
 
